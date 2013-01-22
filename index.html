@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+
+
+function myFunc(e) {  
+
+	var all_tabs = opera.extension.tabs.getAll();
+
+	var focused = opera.extension.tabs.getFocused();
+	var tab = focused;
+	
+	if ( typeof BrowserTabEvent  === 'function' && e instanceof BrowserTabEvent )
+	{
+		tab = e.tab;
+	//	console.log("It's a BrowserTabEvent");
+	
+	}
+	else if ( e instanceof MessageEvent )
+	{
+	//	console.log("Received message:", e.data);
+	
+	}	
+			
+	for ( var i=0; i < all_tabs.length; ++i)
+	{	
+		var cur = all_tabs[i];
+
+		if ( cur.url == tab.url && 
+		     cur.id  != tab.id )
+		{			
+			tab.close();
+			var bw = cur.browserWindow;
+	
+			// If new tab is not the focused one, it was a
+			// background-opened tab and thus we don't want to set focus to it
+			if ( focused == tab )
+			{
+				cur.focus();
+				// Using Timeout to prevent some weird bug where the other window
+				// flashes back to focus
+				setTimeout( function() { console.log("FOCUS!"); bw.focus(); }, 1);
+			}
+
+			if ( !!cur.port )
+				cur.postMessage("doReload");
+	
+			console.log("Found & closed dup");
+		}
+		
+	}
+	
+ };
+
+opera.extension.addEventListener('message', myFunc, false);
+opera.extension.addEventListener('connect', myFunc, false);
+
+opera.extension.addEventListener('load', myFunc, false);
+
+opera.extension.tabs.oncreate = myFunc;
+
+  </script>
+  </head>
+  <body>
+  </body>
+</html>

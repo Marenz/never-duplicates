@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget xmlns="http://www.w3.org/ns/widgets" version="1.0.0" id="https://addons.opera.com/extensions/details/never-duplicates/" href="https://addons.opera.com/extensions/details/never-duplicates/">
+  <name>Never Duplicates</name>
+  <author email="opera-ext@supradigital.org">Mathias L. Baumann</author>
+  <icon src="icons/icon-64.png"/>
+  <icon src="icons/icon-18.png"/>
+  <update-description href="https://extension-updates.opera.com/api/w3c-wd1/update/8e949314-dac3-4324-bce8-322322b38dd5/"/>
+  <description xml:lang="en">Avoids creation of dulpicate tabs and focuses and reloads the pre-existing tab instead</description>
+</widget>
