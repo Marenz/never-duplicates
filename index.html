@@ -14,12 +14,11 @@ function myFunc(e) {
 	if ( typeof BrowserTabEvent  === 'function' && e instanceof BrowserTabEvent )
 	{
 		tab = e.tab;
-	//	console.log("It's a BrowserTabEvent");
+		//console.log("It's a BrowserTabEvent");
 	
 	}
 	else if ( e instanceof MessageEvent )
 	{
-	//	console.log("Received message:", e.data);
 	
 	}	
 			
@@ -27,12 +26,17 @@ function myFunc(e) {
 	{	
 		var cur = all_tabs[i];
 
-		if ( cur.url == tab.url && 
+		// URL is only available after the tab has been loaded
+		if ( tab.readyState != 'uninitialized' && 
+		     cur.url == tab.url && 
 		     cur.id  != tab.id )
-		{			
+		{
+			
+			console.log("ReadyState: ", tab.readyState, "URL: ", tab.url);
 			tab.close();
+
 			var bw = cur.browserWindow;
-	
+
 			// If new tab is not the focused one, it was a
 			// background-opened tab and thus we don't want to set focus to it
 			if ( focused == tab )
@@ -40,7 +44,7 @@ function myFunc(e) {
 				cur.focus();
 				// Using Timeout to prevent some weird bug where the other window
 				// flashes back to focus
-				setTimeout( function() { console.log("FOCUS!"); bw.focus(); }, 1);
+				setTimeout( function() { /*console.log("FOCUS!"); */ bw.focus(); }, 1);
 			}
 
 			if ( !!cur.port )
